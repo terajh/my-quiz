@@ -15,3 +15,9 @@ npm run dev
 npm test
 npm run build
 ```
+
+## 배포
+
+`main` 브랜치에 푸시하면 GitHub Actions가 정적 파일을 빌드해 GitHub Pages로 배포합니다.
+
+배포 URL: https://terajh.github.io/my-quiz/
