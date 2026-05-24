@@ -68,6 +68,7 @@ src/
   features/
     quiz/
       QuizPage.tsx
+      quiz-topics.ts
       questions.ts
       grading.ts
       quiz-state.ts
@@ -75,15 +76,26 @@ src/
       types.ts
 ```
 
-- `questions.ts`: 퀴즈 문제 데이터
+- `quiz-topics.ts`: 사용자가 선택할 수 있는 퀴즈 주제 목록
+- `questions.ts`: 쿠버네티스 퀴즈 문제 데이터
 - `grading.ts`: 문제 유형별 채점 로직
 - `quiz-state.ts`: 진행률, 점수, 필터링, 오답 모드 계산
-- `storage.ts`: 브라우저 저장소 연동
+- `storage.ts`: 주제별 브라우저 저장소 연동
 - `QuizPage.tsx`: 퀴즈 풀이 화면
 
-## 문제 추가 또는 수정
+## 주제와 문제 추가 또는 수정
 
-문제는 `src/features/quiz/questions.ts`에서 직접 관리합니다. 새 문서 기반 퀴즈가 필요하면 같은 파일에 문제 객체를 추가하거나, 별도 문제 세트 구조로 확장하면 됩니다.
+퀴즈는 `QuizTopic` 단위로 관리합니다. 현재는 `kubernetes` 주제가 등록되어 있고, 이후 새 문서 기반 퀴즈를 추가할 때는 새 문제 배열을 만든 뒤 `src/features/quiz/quiz-topics.ts`에 주제를 추가하면 됩니다.
+
+각 주제는 다음 값을 가집니다.
+
+- `id`: 저장소 키와 select 값에 사용하는 고유 ID
+- `title`: 화면 상단과 주제 select에 표시되는 이름
+- `description`: 주제 설명
+- `sourceLabel`: 출처 또는 문서 경로
+- `questions`: 해당 주제의 문제 배열
+
+풀이 기록은 `myquiz-progress:<topicId>` 형식으로 주제별 분리 저장됩니다.
 
 문제 데이터는 `QuizQuestion` 타입을 따릅니다. 지원하는 문제 유형은 다음과 같습니다.
 
@@ -118,5 +130,5 @@ Vite는 GitHub Pages 하위 경로에 맞춰 `base: '/my-quiz/'`로 설정되어
 ## 현재 한계
 
 - AI API를 사용한 자동 문제 생성은 아직 포함하지 않았습니다.
-- 현재 문제는 `questions.ts`에 직접 작성된 정적 데이터입니다.
+- 현재 문제는 TypeScript 파일에 직접 작성된 정적 데이터입니다.
 - 다른 문서 기반 퀴즈가 필요하면 문제 데이터를 수동으로 추가해야 합니다.

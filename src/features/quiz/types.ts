@@ -67,3 +67,11 @@ export type QuizQuestion =
   | MatchingQuestion;
 
 export type QuizAnswer = string | boolean | string[] | Record<string, string>;
+
+export type QuizTopic = {
+  id: string;
+  title: string;
+  description: string;
+  sourceLabel: string;
+  questions: QuizQuestion[];
+};

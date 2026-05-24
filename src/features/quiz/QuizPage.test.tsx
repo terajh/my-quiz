@@ -11,6 +11,8 @@ describe('QuizPage', () => {
 
     render(<QuizPage />);
 
+    expect(screen.getByLabelText('주제')).toHaveValue('kubernetes');
+    expect(screen.getByText('Notion 개발 > 쿠버네티스')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '쿠버네티스 퀴즈' })).toBeInTheDocument();
     expect(screen.getByText('쿠버네티스에서 클러스터(Cluster)를 가장 정확히 설명한 것은?')).toBeInTheDocument();
 

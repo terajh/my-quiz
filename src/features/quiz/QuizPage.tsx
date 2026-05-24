@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { gradeAnswer } from './grading';
-import { questions } from './questions';
+import { quizTopics } from './quiz-topics';
 import {
   buildQuizSummary,
   getAvailableSections,
@@ -21,7 +21,10 @@ const typeLabels: Record<QuestionType, string> = {
 };
 
 export function QuizPage() {
-  const [answers, setAnswers] = useState<Record<string, AnswerRecord>>(() => loadQuizProgress());
+  const [selectedTopicId, setSelectedTopicId] = useState(quizTopics[0].id);
+  const selectedTopic = quizTopics.find((topic) => topic.id === selectedTopicId) ?? quizTopics[0];
+  const questions = selectedTopic.questions;
+  const [answers, setAnswers] = useState<Record<string, AnswerRecord>>(() => loadQuizProgress(selectedTopicId));
   const [sectionFilter, setSectionFilter] = useState('all');
   const [typeFilter, setTypeFilter] = useState<QuestionType | 'all'>('all');
   const [incorrectOnly, setIncorrectOnly] = useState(false);
@@ -42,7 +45,16 @@ export function QuizPage() {
   const summary = buildQuizSummary(questions, answers);
 
   useEffect(() => {
-    saveQuizProgress(answers);
+    setAnswers(loadQuizProgress(selectedTopicId));
+    setSectionFilter('all');
+    setTypeFilter('all');
+    setIncorrectOnly(false);
+    setCurrentIndex(0);
+    setDraftAnswer('');
+  }, [selectedTopicId]);
+
+  useEffect(() => {
+    saveQuizProgress(selectedTopicId, answers);
   }, [answers]);
 
   useEffect(() => {
@@ -75,7 +87,7 @@ export function QuizPage() {
   }
 
   function resetProgress() {
-    clearQuizProgress();
+    clearQuizProgress(selectedTopicId);
     setAnswers({});
     setCurrentIndex(0);
   }
@@ -84,8 +96,8 @@ export function QuizPage() {
     <main className="quiz-app">
       <header className="topbar">
         <div>
-          <p className="eyebrow">Notion 개발 &gt; 쿠버네티스</p>
-          <h1>쿠버네티스 퀴즈</h1>
+          <p className="eyebrow">{selectedTopic.sourceLabel}</p>
+          <h1>{selectedTopic.title}</h1>
         </div>
         <div className="score-strip" aria-label="학습 현황">
           <Metric label="진행" value={`${summary.progressPercentage}%`} />
@@ -96,6 +108,17 @@ export function QuizPage() {
 
       <section className="workspace" aria-label="문제 풀이 작업 영역">
         <aside className="filter-panel" aria-label="필터">
+          <label>
+            주제
+            <select value={selectedTopicId} onChange={(event) => setSelectedTopicId(event.target.value)}>
+              {quizTopics.map((topic) => (
+                <option key={topic.id} value={topic.id}>
+                  {topic.title}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <label>
             섹션
             <select value={sectionFilter} onChange={(event) => setSectionFilter(event.target.value)}>
