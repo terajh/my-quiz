@@ -15,6 +15,7 @@ describe('QuizPage', () => {
     expect(screen.getByText('Notion 개발 > 쿠버네티스')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: '쿠버네티스 퀴즈' })).toBeInTheDocument();
     expect(screen.getByText('쿠버네티스에서 클러스터(Cluster)를 가장 정확히 설명한 것은?')).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: '문제 이동과 채점' })).toBeInTheDocument();
 
     await user.click(screen.getByRole('radio', { name: '여러 노드로 구성된 쿠버네티스의 운영 단위' }));
     await user.click(screen.getByRole('button', { name: '채점하기' }));

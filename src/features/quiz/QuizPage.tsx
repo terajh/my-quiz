@@ -175,7 +175,7 @@ export function QuizPage() {
                 <AnswerControl question={currentQuestion} value={draftAnswer} onChange={setDraftAnswer} />
               </div>
 
-              <div className="action-row">
+              <div className="action-row" role="group" aria-label="문제 이동과 채점">
                 <button className="primary-button" type="button" onClick={submitAnswer}>
                   채점하기
                 </button>

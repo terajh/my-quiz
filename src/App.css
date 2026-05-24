@@ -388,12 +388,27 @@ dd {
 
   .question-panel {
     min-height: auto;
+    order: 1;
+  }
+
+  .summary-panel {
+    order: 2;
+  }
+
+  .filter-panel {
+    order: 3;
   }
 }
 
 @media (max-width: 640px) {
   .quiz-app {
-    padding: 14px;
+    padding: 12px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+
+  .topbar {
+    gap: 14px;
+    margin-bottom: 14px;
   }
 
   h1 {
@@ -405,19 +420,74 @@ dd {
   }
 
   .score-strip {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .metric {
-    border-left: 0;
-    border-top: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+    border-top: 0;
+    padding: 10px 8px;
+    text-align: center;
   }
 
   .metric:first-child {
-    border-top: 0;
+    border-left: 0;
+  }
+
+  .metric span {
+    font-size: 11px;
+  }
+
+  .metric strong {
+    font-size: 18px;
+  }
+
+  .filter-panel,
+  .summary-panel {
+    padding: 16px;
   }
 
   .question-panel {
-    padding: 20px;
+    padding: 18px;
+  }
+
+  .question-meta {
+    margin-bottom: 16px;
+  }
+
+  .answer-area {
+    margin: 22px 0 18px;
+  }
+
+  .option-list.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .option-row {
+    min-height: 56px;
+    padding: 14px 12px;
+  }
+
+  .action-row {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    margin: 20px -8px -8px;
+    padding: 10px;
+    position: sticky;
+    z-index: 10;
+  }
+
+  .primary-button,
+  .secondary-button {
+    min-height: 46px;
+    padding: 10px 8px;
+    width: 100%;
   }
 }
