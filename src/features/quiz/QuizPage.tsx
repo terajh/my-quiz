@@ -308,7 +308,11 @@ function AnswerControl({
     return <OrderingAnswer question={question} value={value} onChange={onChange} />;
   }
 
-  return <MatchingAnswer question={question} value={value} onChange={onChange} />;
+  if (question.type === 'matching') {
+    return <MatchingAnswer question={question} value={value} onChange={onChange} />;
+  }
+
+  return null;
 }
 
 function OrderingAnswer({
